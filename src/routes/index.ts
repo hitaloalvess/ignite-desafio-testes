@@ -12,5 +12,4 @@ router.use('/users', usersRouter);
 router.use('/profile', userProfileRouter);
 
 router.use('/statements', statementRouter);
-
 export { router };

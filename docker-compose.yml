@@ -8,18 +8,18 @@ services:
     ports:
       - 5432:5432
     environment: 
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=docker
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=rentx
       - POSTGRES_DB=finapi
     volumes:
       - pgdata:/data/postgres
 
   app:
     build: .
-    container_name: fin_api
+    container_name: finapi
     restart: always
     ports:
-      - 3334:3334
+      - 3333:3333
     volumes:
       - .:/usr/app
     links:
