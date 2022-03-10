@@ -7,6 +7,7 @@ import CreateConnection from '../../../../database/index';
 import { app } from "../../../../app";
 
 let connection: Connection;
+let authenticatedUser: request.Response;
 
 describe('Show User Profile Controller', () => {
   beforeAll(async() => {
@@ -20,6 +21,12 @@ describe('Show User Profile Controller', () => {
       `INSERT INTO USERS(id, name, email, password, created_at, updated_at)
       values('${id}', 'userDefault', 'userdefault@outlook.com', '${password}', now(), now())`
     );
+
+    authenticatedUser =  await request(app).post('/api/v1/sessions').send({
+      email:'userdefault@outlook.com',
+      password: 'userPassword'
+    });
+
   });
 
   afterAll(async() => {
@@ -28,21 +35,17 @@ describe('Show User Profile Controller', () => {
   });
 
   it('should be able to show user profile', async() => {
-    const responseCreateToken = await request(app).post('/api/v1/sessions').send({
-      email: 'userdefault@outlook.com',
-      password: 'userPassword'
-    })
 
-    const { token, user} = responseCreateToken.body;
+    const { token, user} = authenticatedUser.body;
 
-    const response = await request(app).get('/api/v1/profile').send({
+    const responseShowProfile = await request(app).get('/api/v1/profile').send({
       id: user.id
     }).set({
       Authorization: `Bearer ${token}`,
     })
 
-    expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty('id');
+    expect(responseShowProfile.status).toBe(200);
+    expect(responseShowProfile.body).toHaveProperty('id');
 
   });
 
@@ -54,12 +57,12 @@ describe('Show User Profile Controller', () => {
       password: '12345'
     };
 
-    const response = await request(app).get('/api/v1/profile').send({
+    const responseShowProfile = await request(app).get('/api/v1/profile').send({
       id: userUnauthenticated.id
     });
 
 
-    expect(response.status).toBe(401);
+    expect(responseShowProfile.status).toBe(401);
   });
 
 })

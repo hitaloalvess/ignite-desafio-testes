@@ -18,13 +18,13 @@ describe('Create User Controller', () => {
   });
 
   it('should be able to create new user', async() => {
-    const response = await request(app).post('/api/v1/users').send({
+    const responseCreateUser = await request(app).post('/api/v1/users').send({
       name: 'Hitalo R Alves',
       email: 'hitalo.ralves@outlook.com',
       password: '12345'
     });
 
-    expect(response.status).toBe(201);
+    expect(responseCreateUser.status).toBe(201);
   });
 
   it('should not be able to create new user with email exists', async() => {
@@ -34,13 +34,13 @@ describe('Create User Controller', () => {
       password: '12345'
     });
 
-    const response = await request(app).post('/api/v1/users').send({
+    const responseCreateUser = await request(app).post('/api/v1/users').send({
       name: 'Hitalo Rodrigo',
       email: 'hitalo.ralves@outlook.com',
       password: '123678'
     });
 
-    expect(response.status).toBe(400);
+    expect(responseCreateUser.status).toBe(400);
   });
 
 })

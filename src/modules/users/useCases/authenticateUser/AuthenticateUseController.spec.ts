@@ -30,32 +30,32 @@ describe('Authenticate User Controller', () => {
   })
 
   it('should be able to authenticated user', async() => {
-    const response = await request(app).post('/api/v1/sessions').send({
+    const responseCreateAuthenticatedUser = await request(app).post('/api/v1/sessions').send({
       email: 'userdefault@outlook.com',
       password: 'userPassword'
     })
 
-    expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty('token');
-    expect(response.body).toHaveProperty('user');
+    expect(responseCreateAuthenticatedUser.status).toBe(200);
+    expect(responseCreateAuthenticatedUser.body).toHaveProperty('token');
+    expect(responseCreateAuthenticatedUser.body).toHaveProperty('user');
   });
 
   it('should not be able to authenticated user with incorrect email', async() => {
-    const response = await request(app).post('/api/v1/sessions').send({
+    const responseCreateAuthenticatedUser = await request(app).post('/api/v1/sessions').send({
       email: 'userincorrect@outlook.com',
       password: 'userPassword'
     })
 
-    expect(response.status).toBe(401);
+    expect(responseCreateAuthenticatedUser.status).toBe(401);
   });
 
   it('should not be able to authenticated user with incorrect password', async() => {
-    const response = await request(app).post('/api/v1/sessions').send({
+    const responseCreateAuthenticatedUser = await request(app).post('/api/v1/sessions').send({
       email: 'userdefault@outlook.com',
       password: 'passwordIncorrect'
     })
 
-    expect(response.status).toBe(401);
+    expect(responseCreateAuthenticatedUser.status).toBe(401);
   });
   
 })
