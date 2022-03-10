@@ -35,6 +35,7 @@ export class GetStatementOperationUseCase {
         throw new GetStatementOperationError.StatementNotFound();
       }
 
+
       return statementOperation;
   }
 }
